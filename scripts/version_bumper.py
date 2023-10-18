@@ -11,6 +11,9 @@ EXPANDED_VER_RE = re.compile(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
+    if parser is None:
+        return None
+    
     parser.add_argument(
         "file",
         type=Path,
