@@ -1,9 +1,5 @@
 name: Release docker image
 
-on:
-  push:
-    tags:
-      - "*"
 
 jobs:
   deploy:
