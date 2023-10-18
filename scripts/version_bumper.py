@@ -10,6 +10,20 @@ EXPANDED_VER_RE = re.compile(
 )
 
 def parse_args() -> argparse.Namespace:
+    """
+    Parse command line arguments.
+
+    Returns:
+        argparse.Namespace: The parsed command line arguments.
+
+    Raises:
+        None: No exceptions are raised.
+
+    Example:
+        >>> parse_args()
+        Namespace(file=Path(''), section='tool.poetry.dependencies')
+    """
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "file",
@@ -27,6 +41,31 @@ def parse_args() -> argparse.Namespace:
     return output
 
 def get_dependencies(path: Path, section: str) -> List[str]:
+    """
+    This function retrieves the dependencies from a given file path and section.
+
+    Args:
+        path (Path): The path to the file.
+        section (str): The section to retrieve the dependencies from.
+
+    Returns:
+        List[str]: A list of dependencies.
+
+    Raises:
+        None: This function does not raise any exceptions.
+
+    Example:
+        >>> path = Path('path/to/file')
+        >>> section = 'dependencies'
+        >>> get_dependencies(path, section)
+        [(0, 'dependency1'), (1, 'dependency2'), ...]
+
+    Note:
+        - This function assumes that the file is in a specific format where dependencies are listed under sections.
+        - The function ignores lines starting with '[' that do not match the specified section.
+        - The function ignores lines starting with 'python =' and '{%'.
+    """
+
     read_file = path.read_text()
     recording = False
     deps = []
@@ -46,6 +85,23 @@ def get_dependencies(path: Path, section: str) -> List[str]:
     return deps
 
 def get_new_version(package_name: str) -> Optional[str]:
+    """
+    This function retrieves the latest version of a given package from the PyPI repository.
+
+    Args:
+        package_name (str): The name of the package to retrieve the latest version for.
+
+    Returns:
+        Optional[str]: The latest version of the package, or None if the request fails.
+
+    Raises:
+        None
+
+    Example:
+        >>> get_new_version("requests")
+        '2.26.0'
+    """
+
     resp = requests.get(f'https://pypi.org/pypi/{package_name}/json')
     if not resp.ok:
         return None
@@ -54,6 +110,26 @@ def get_new_version(package_name: str) -> Optional[str]:
 
 
 def bump_version(dependency: str) -> str:
+    """
+    This function is used to bump the version of a dependency in a given string.
+
+    Parameters:
+    - dependency (str): The string representation of the dependency.
+
+    Returns:
+    - str: The updated string with the bumped version.
+
+    Exceptions:
+    - None
+
+    Example:
+    ```python
+    dependency = "package==1.0.0"
+    bumped_version = bump_version(dependency)
+    print(bumped_version)  # Output: "package==2.0.0"
+    ```
+    """
+
     exp_match = EXPANDED_VER_RE.match(dependency)
     raw_match = None
     if exp_match:
@@ -76,6 +152,16 @@ def bump_version(dependency: str) -> str:
     return None
 
 def main():
+    """
+    Main function to update dependencies in a file.
+
+    :param args: Command line arguments parsed using `parse_args()`.
+    :type args: argparse.Namespace
+    :raises FileNotFoundError: If the specified file is not found.
+    :raises ValueError: If the specified section is not found in the file.
+    :returns: None
+    """
+
     args = parse_args()
     deps = get_dependencies(args.file, args.section)
     lines = args.file.read_text().splitlines(keepends=False)
