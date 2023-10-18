@@ -21,7 +21,10 @@ def parse_args() -> argparse.Namespace:
         type=str,
         default="tool.poetry.dependencies",
     )
-    return parser.parse_args()
+    output = parser.parse_args()
+    if output is None:
+        return None
+    return output
 
 def get_dependencies(path: Path, section: str) -> List[str]:
     read_file = path.read_text()
