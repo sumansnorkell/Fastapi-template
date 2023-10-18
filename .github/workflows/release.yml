@@ -1,9 +1,5 @@
 name: Release python package
 
-on:
-  push:
-    tags:
-      - "*"
 
 jobs:
   deploy:
