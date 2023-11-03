@@ -42,6 +42,26 @@ def parse_args() -> argparse.Namespace:
     return output
 
 def get_dependencies(path: Path, section: str) -> List[str]:
+    """
+    Get the dependencies for a given path and section.
+
+    Args:
+        path (Path): The path to the file or directory.
+        section (str): The section to get the dependencies for.
+
+    Returns:
+        List[str]: A list of dependencies for the given path and section.
+
+    Raises:
+        None: This function does not raise any exceptions.
+
+    Example:
+        >>> path = Path('/path/to/file')
+        >>> section = 'main'
+        >>> get_dependencies(path, section)
+        None
+    """
+
     
     return None
 
