@@ -42,8 +42,23 @@ def parse_args() -> argparse.Namespace:
     return output
 
 def get_dependencies(path: Path, section: str) -> List[str]:
-    
-    return None
+    read_file = path.read_text()
+    recording = False
+    deps = []
+    for index, line in enumerate(read_file.splitlines(keepends=False)):
+        if line.startswith('[') and line.strip('[]') != section:
+            recording = False
+            continue
+        if line == f"[{section}]":
+            recording = True
+            continue
+        if line.startswith('python ='):
+            continue
+        if line.startswith('{%'):
+            continue
+        if recording:
+            deps.append((index, line))
+    return deps
 
 def get_new_version(package_name: str) -> Optional[str]:
     """
