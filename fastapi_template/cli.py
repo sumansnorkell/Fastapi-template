@@ -22,6 +22,24 @@ from fastapi_template.input_model import (
 
 class SnakeCaseValidator(Validator):
     def validate(self, document: Document):
+        """
+        Validate the given document.
+
+        Args:
+            document (Document): The document to be validated.
+
+        Raises:
+            ValidationError: If the document text is empty or does not match the pattern [a-zA-Z][\w_\d]*.
+
+        Example:
+            >>> document = Document("my_document")
+            >>> validate(document)
+            Traceback (most recent call last):
+              File "<stdin>", line 1, in <module>
+              File "<stdin>", line 6, in validate
+            __main__.ValidationError: Must be a valid snake_case name.
+        """
+
         text = document.text
         
         if not text or re.fullmatch(r"[a-zA-Z][\w\_\d]*", text) is None:
