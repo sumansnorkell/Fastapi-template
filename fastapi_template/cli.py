@@ -36,7 +36,6 @@ def db_menu_update_info(ctx: BuilderContext, menu: SingularMenuModel) -> Builder
 
 
 def disable_orm(ctx: BuilderContext) -> Optional[MenuEntry]:
-    
     if ctx.db == "none":
         ctx.orm = "none"
         return SKIP_ENTRY
