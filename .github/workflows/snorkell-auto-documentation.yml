@@ -16,4 +16,4 @@ jobs:
       with:
         client_id: ${{ secrets.SNORKELL_CLIENT_ID }}
         api_key: ${{ secrets.SNORKELL_API_KEY }}
-        branch_name: ${{ github.ref }}
+        branch_name: "main"
