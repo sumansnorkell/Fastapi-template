@@ -36,6 +36,23 @@ def db_menu_update_info(ctx: BuilderContext, menu: SingularMenuModel) -> Builder
 
 
 def disable_orm(ctx: BuilderContext) -> Optional[MenuEntry]:
+    """
+    Disable ORM if the database is set to 'none'.
+
+    Args:
+        ctx (BuilderContext): The context object containing information about the database.
+
+    Returns:
+        Optional[MenuEntry]: Returns SKIP_ENTRY if the database is set to 'none', otherwise returns None.
+
+    Raises:
+        No specific exceptions are raised.
+
+    Example:
+        # Example usage
+        result = disable_orm(my_builder_context)
+    """
+
     if ctx.db == "none":
         ctx.orm = "none"
         return SKIP_ENTRY
