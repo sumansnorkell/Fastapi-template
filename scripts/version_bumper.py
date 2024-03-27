@@ -42,6 +42,26 @@ def parse_args() -> argparse.Namespace:
     return output
 
 def get_dependencies(path: Path, section: str) -> List[str]:
+    """
+    This function returns a list of dependencies from a given file path and section.
+
+    Args:
+        path (Path): The path to the file.
+        section (str): The section to search for dependencies.
+
+    Returns:
+        List[str]: A list of dependencies found in the specified section.
+
+    Raises:
+        None
+
+    Example:
+        >>> path = Path('path/to/file.txt')
+        >>> section = 'dependencies'
+        >>> get_dependencies(path, section)
+        [(0, 'dependency1'), (1, 'dependency2'), (2, 'dependency3')]
+    """
+
     read_file = path.read_text()
     recording = False
     deps = []
